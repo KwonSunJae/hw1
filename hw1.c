@@ -23,7 +23,7 @@ void select_sql_db(sqlite3 *db, char * sql){
 
     sqlite3_stmt * stmt;
 
-    printf("Performing query...\n");
+    printf("Performing query... : %s\n", sql);
 	sqlite3_prepare_v2(db, sql,-1, &stmt, NULL);
 	
 	printf("Got results:\n");
@@ -36,15 +36,13 @@ void select_sql_db(sqlite3 *db, char * sql){
 			switch (sqlite3_column_type(stmt, i))
 			{
 			case (SQLITE3_TEXT):
-				printf("%s, ", sqlite3_column_text(stmt, i));
+				printf("%s|", sqlite3_column_text(stmt, i));
 				break;
 			case (SQLITE_INTEGER):
-				printf("%d, ", sqlite3_column_int(stmt, i));
-				break;
-			case (SQLITE_FLOAT):
-				printf("%g, ", sqlite3_column_double(stmt, i));
+				printf("%d|", sqlite3_column_int(stmt, i));
 				break;
 			default:
+                printf("ERROR: %s|", sqlite3_column_text(stmt, i));    
 				break;
 			}
 		}
@@ -85,7 +83,7 @@ void create_course_table(sqlite3 *db){
         title TEXT(40),\
         classroom TEXT(20),\
         instructor_name TEXT(20),\
-        primary key(code));";
+        primary key(code,section,semester,year));";
     sqlite3_exec(db, sql, NULL,NULL,&errmsg);
     printf("%s",errmsg);
 
@@ -113,8 +111,8 @@ int main(){
             break;
         name = strtok(pLine, " ");
         dept_name = strtok(NULL, " ");
-        office = strtok(NULL, " ");
-        insert_faculty_table(faculty_db,name,dept_name,office);
+        office = strtok(NULL, "\r");
+        //insert_faculty_table(faculty_db,name,dept_name,office);
 
     }
 
@@ -129,14 +127,23 @@ int main(){
         year = strtok(NULL, " ");
         title = strtok(NULL, " ");
         classroom = strtok(NULL, " ");
-        instructor_name =  strtok(NULL, " ");
-        insert_course_table(faculty_db,code,section,semester,year,title,classroom,instructor_name);
+        instructor_name =  strtok(NULL, "\r");
+        
+        //insert_course_table(faculty_db,code,section,semester,year,title,classroom,instructor_name);
 
     }
-
+    //show all
     select_sql_db(faculty_db, "SELECT * FROM Course;");
-
-
+    select_sql_db(faculty_db, "SELECT * FROM Faculty;");
+    //Q2
+    select_sql_db(faculty_db, "SELECT title FROM Course WHERE instructor_name LIKE 'Wookhee_Kim';");
+    //Q3
+    select_sql_db(faculty_db, "SELECT title FROM Course WHERE code NOT LIKE 'BBAB%';");
+    //Q4
+    select_sql_db(faculty_db, "SELECT c.code, c.section, c.semester, c.year, c.title, c.classroom, c.instructor_name, f.department_name, f.office\
+FROM Course c\
+JOIN Faculty f ON c.instructor_name = f.instructor_name\
+WHERE f.department_name = 'CSE';");
     fclose(in);
     sqlite3_close(faculty_db);
 
