@@ -23,10 +23,10 @@ void select_sql_db(sqlite3 *db, char * sql){
 
     sqlite3_stmt * stmt;
 
-    printf("Performing query... : %s\n", sql);
+    printf("Executing Query : [%s]\n", sql);
 	sqlite3_prepare_v2(db, sql,-1, &stmt, NULL);
 	
-	printf("Got results:\n");
+	printf("------------Got results----------------\n");
 	while (sqlite3_step(stmt) != SQLITE_DONE) {
 		int i;
 		int num_cols = sqlite3_column_count(stmt);
@@ -54,9 +54,9 @@ void select_sql_db(sqlite3 *db, char * sql){
 }
 void create_faculty_table(sqlite3 *db){
     char * sql = "CREATE TABLE Faculty (\
-        instructor_name TEXT(100),\
-        department_name TEXT(100),\
-        office TEXT(100));";
+        instructor_name TEXT,\
+        department_name TEXT,\
+        office TEXT);";
     sqlite3_exec(db, sql, NULL,NULL,NULL);
 
 }
@@ -76,13 +76,13 @@ void insert_course_table(sqlite3 *db ,char * code, char * section, char * semest
 void create_course_table(sqlite3 *db){
     char * errmsg;
     char * sql = "CREATE TABLE Course (\
-        code TEXT(20),\
-        section INT(10),\
-        semester INT(10),\
-        year INT(10),\
-        title TEXT(40),\
-        classroom TEXT(20),\
-        instructor_name TEXT(20),\
+        code TEXT,\
+        section INT,\
+        semester INT,\
+        year INT,\
+        title TEXT,\
+        classroom TEXT,\
+        instructor_name TEXT,\
         primary key(code,section,semester,year));";
     sqlite3_exec(db, sql, NULL,NULL,&errmsg);
     printf("%s",errmsg);
@@ -140,10 +140,11 @@ int main(){
     //Q3
     select_sql_db(faculty_db, "SELECT title FROM Course WHERE code NOT LIKE 'BBAB%';");
     //Q4
-    select_sql_db(faculty_db, "SELECT c.code, c.section, c.semester, c.year, c.title, c.classroom, c.instructor_name, f.department_name, f.office\
-FROM Course c\
-JOIN Faculty f ON c.instructor_name = f.instructor_name\
-WHERE f.department_name = 'CSE';");
+    select_sql_db(faculty_db, "SELECT c.code, c.section, c.semester, c.year, c.title, c.classroom, c.instructor_name, f.department_name, f.office FROM Course AS c JOIN Faculty AS f ON c.instructor_name = f.instructor_name WHERE f.department_name = 'CSE';");
+    //Q5
+    select_sql_db(faculty_db, "SELECT c.code, c.section, c.semester, c.year, c.title, c.classroom, c.instructor_name, f.department_name, f.office FROM Course AS c JOIN Faculty AS f ON c.instructor_name = f.instructor_name WHERE c.classroom like 'Engineering_Building_A%';");
+    //Q6
+    select_sql_db(faculty_db, "SELECT c.code, c.section, c.semester, c.year, c.title, c.classroom, c.instructor_name FROM Course AS c JOIN Faculty AS f ON c.instructor_name = f.instructor_name WHERE f.department_name NOT LIKE 'CSE';");
     fclose(in);
     sqlite3_close(faculty_db);
 
