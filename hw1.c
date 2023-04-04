@@ -132,6 +132,9 @@ int main(){
         //insert_course_table(faculty_db,code,section,semester,year,title,classroom,instructor_name);
 
     }
+
+
+
     //show all
     select_sql_db(faculty_db, "SELECT * FROM Course;");
     select_sql_db(faculty_db, "SELECT * FROM Faculty;");
@@ -145,6 +148,11 @@ int main(){
     select_sql_db(faculty_db, "SELECT c.code, c.section, c.semester, c.year, c.title, c.classroom, c.instructor_name, f.department_name, f.office FROM Course AS c JOIN Faculty AS f ON c.instructor_name = f.instructor_name WHERE c.classroom like 'Engineering_Building_A%';");
     //Q6
     select_sql_db(faculty_db, "SELECT c.code, c.section, c.semester, c.year, c.title, c.classroom, c.instructor_name FROM Course AS c JOIN Faculty AS f ON c.instructor_name = f.instructor_name WHERE f.department_name NOT LIKE 'CSE';");
+    
+    
+    
+    
+    
     fclose(in);
     sqlite3_close(faculty_db);
 
