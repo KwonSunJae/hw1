@@ -112,7 +112,7 @@ int main(){
         name = strtok(pLine, " ");
         dept_name = strtok(NULL, " ");
         office = strtok(NULL, "\r");
-        //insert_faculty_table(faculty_db,name,dept_name,office);
+        insert_faculty_table(faculty_db,name,dept_name,office);
 
     }
 
@@ -129,7 +129,7 @@ int main(){
         classroom = strtok(NULL, " ");
         instructor_name =  strtok(NULL, "\r");
         
-        //insert_course_table(faculty_db,code,section,semester,year,title,classroom,instructor_name);
+        insert_course_table(faculty_db,code,section,semester,year,title,classroom,instructor_name);
 
     }
 
@@ -139,7 +139,7 @@ int main(){
     select_sql_db(faculty_db, "SELECT * FROM Course;");
     select_sql_db(faculty_db, "SELECT * FROM Faculty;");
     //Q2
-    select_sql_db(faculty_db, "SELECT title FROM Course WHERE instructor_name LIKE 'Wookhee_Kim';");
+    select_sql_db(faculty_db, "SELECT title FROM Course WHERE instructor_name = 'Wookhee_Kim';");
     //Q3
     select_sql_db(faculty_db, "SELECT title FROM Course WHERE code NOT LIKE 'BBAB%';");
     //Q4
