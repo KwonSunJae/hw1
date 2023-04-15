@@ -8,6 +8,21 @@
 
 #include "sqlite3.h"
 
+
+
+
+void create_faculty_table(sqlite3 *db){
+    char * sql = "CREATE TABLE Faculty (instructor_name TEXT,department_name TEXT,office TEXT);";
+    sqlite3_exec(db, sql, NULL,NULL,NULL);
+
+}
+
+void create_course_table(sqlite3 *db){
+
+    char * sql = "CREATE TABLE Course (code TEXT,section INT,semester INT,year INT,title TEXT,classroom TEXT,instructor_name TEXT,primary key(code,section,semester,year));";
+    sqlite3_exec(db, sql, NULL,NULL,NULL);
+}
+
 static int callback_function(void *notUsed, int argc, char **argv, char **azColName){
     int i=0;
 	for(i=0; i<argc; i++){
@@ -18,31 +33,6 @@ static int callback_function(void *notUsed, int argc, char **argv, char **azColN
 	}
 	return 0;
 }
-
-
-void create_faculty_table(sqlite3 *db){
-    char * sql = "CREATE TABLE Faculty (\
-        instructor_name TEXT,\
-        department_name TEXT,\
-        office TEXT);";
-    sqlite3_exec(db, sql, NULL,NULL,NULL);
-
-}
-
-void create_course_table(sqlite3 *db){
-
-    char * sql = "CREATE TABLE Course (\
-        code TEXT,\
-        section INT,\
-        semester INT,\
-        year INT,\
-        title TEXT,\
-        classroom TEXT,\
-        instructor_name TEXT,\
-        primary key(code,section,semester,year));";
-    sqlite3_exec(db, sql, NULL,NULL,NULL);
-}
-
 
 void query_db(sqlite3 *db ){
     char * sql = "SELECT * FROM Course;";

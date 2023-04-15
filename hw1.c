@@ -113,9 +113,7 @@ int main(){
         dept_name = strtok(NULL, " ");
         office = strtok(NULL, "\r");
         insert_faculty_table(faculty_db,name,dept_name,office);
-
     }
-
     in = fopen("course.txt", "r");
     while (!feof(in)) {
         pLine = fgets(line, 1024, in);
@@ -128,9 +126,7 @@ int main(){
         title = strtok(NULL, " ");
         classroom = strtok(NULL, " ");
         instructor_name =  strtok(NULL, "\r");
-        
         insert_course_table(faculty_db,code,section,semester,year,title,classroom,instructor_name);
-
     }
 
 
@@ -139,15 +135,15 @@ int main(){
     select_sql_db(faculty_db, "SELECT * FROM Course;");
     select_sql_db(faculty_db, "SELECT * FROM Faculty;");
     //Q2
-    select_sql_db(faculty_db, "SELECT title FROM Course WHERE instructor_name = 'Wookhee_Kim';");
+    select_sql_db(faculty_db, "SELECT DISTINCT title FROM Course WHERE instructor_name = 'Wookhee_Kim';");
     //Q3
-    select_sql_db(faculty_db, "SELECT title FROM Course WHERE code NOT LIKE 'BBAB%';");
+    select_sql_db(faculty_db, "SELECT DISTINCT title FROM Course WHERE code NOT LIKE 'BBAB\%';");
     //Q4
-    select_sql_db(faculty_db, "SELECT c.code, c.section, c.semester, c.year, c.title, c.classroom, c.instructor_name, f.department_name, f.office FROM Course AS c JOIN Faculty AS f ON c.instructor_name = f.instructor_name WHERE f.department_name = 'CSE';");
+    select_sql_db(faculty_db, "SELECT * FROM Course NATURAL JOIN Faculty AS f WHERE f.department_name = 'CSE';");
     //Q5
-    select_sql_db(faculty_db, "SELECT c.code, c.section, c.semester, c.year, c.title, c.classroom, c.instructor_name, f.department_name, f.office FROM Course AS c JOIN Faculty AS f ON c.instructor_name = f.instructor_name WHERE c.classroom like 'Engineering_Building_A%';");
+    select_sql_db(faculty_db, "SELECT c.*  FROM Course AS c JOIN Faculty AS f ON c.instructor_name = f.instructor_name WHERE f.office like 'Engineering\\_Building\\_A\%' ESCAPE '\\' ;");
     //Q6
-    select_sql_db(faculty_db, "SELECT c.code, c.section, c.semester, c.year, c.title, c.classroom, c.instructor_name FROM Course AS c JOIN Faculty AS f ON c.instructor_name = f.instructor_name WHERE f.department_name NOT LIKE 'CSE';");
+    select_sql_db(faculty_db, "SELECT c.* FROM Course AS c JOIN Faculty AS f ON c.instructor_name = f.instructor_name WHERE f.department_name NOT LIKE 'CSE';");
     
     
     

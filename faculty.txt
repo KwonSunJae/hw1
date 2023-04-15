@@ -9,7 +9,7 @@ HyungSeok_Kim CSE Engineering_Building_C-292-2
 Wonhong_Nam CSE Engineering_Building_C-293
 Dugki_Min CSE Engineering_Building_C-385
 Neungsoo_Park CSE Engineering_Building_C-384-1
-Soyoung_Park CSE Engineering_Building_A-1409-1
+So-Young_Park CSE Engineering_Building_A-1409-1
 Hyoseop_Shin CSE Engineering_Building_C-386-2
 Junbeom_Yoo CSE Engineering_Building_C-386
 Kyoungro_Yoon CSE Engineering_Building_C-384
